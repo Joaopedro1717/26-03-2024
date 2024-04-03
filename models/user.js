@@ -1,10 +1,11 @@
 // .models/user.js
 
 const Sequelize = require('sequelize');
-const { sequelize } = require('.');
+// const { sequelize } = require('.');
 
 //Jeito do Escobar
 module.exports= (sequelize) => {
+
     const User = sequelize.define('User',{
         id:{
             type: Sequelize.INTEGER,
@@ -26,7 +27,7 @@ module.exports= (sequelize) => {
     });
     return User;
 };
-
+/*
 const user = sequelize.define('User', {
     id:{
         type: Sequelize.INTEGER,
@@ -48,5 +49,5 @@ const user = sequelize.define('User', {
     }
 
 });
-
-module.exports = User;
+*/
+//module.exports = User;

@@ -17,6 +17,32 @@ app.use(express.static(path.join(__dirname, 'public')));
 app.use('/', indexRouter);
 app.use('/users', usersRouter);
 
+const db = require('./models');
+
+// Aplicar as migration (integrar com o banco de dados [MySql])
+
+// Função para controlar a sincronização com o banco de dados
+async function ApplyMigrations(){
+    try {
+        migration_config={
+            create: true,
+            alter:true
+        };
+
+        db.sequelize.sync({
+            alter: migration_config.alter
+        });
+        console.log('Sincronização com o banco realizada com sucesso');
+    }
+    catch(error){
+        console.log('Erro sincronizando o banco de dados', error);
+    }
+}
+
+// Acionar a sincronização com o banco de dados
+
+ApplyMigrations();
+
 // Alterando para ouvir na porta 5000
 const PORT = 5000;
 app.listen(PORT, () => {
