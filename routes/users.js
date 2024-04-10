@@ -1,9 +1,20 @@
 var express = require('express');
 var router = express.Router();
 
+const db=require('../models');
+const userService = require('../services/userService'); //classe
+const UserService = new userService(db.User); //construção do objeto
+
+const userController = require('../controllers/userController'); //classe
+const UserController = new userController(UserService); //construção do objeto
+
 /* GET users listing. */
 router.get('/', function(req, res, next) {
-  res.send('respond with a resource');
+  res.send('Modulo de usuários está rodando');
 });
 
+//rota para criar um novo usuário
+router.post('/novoUsuario', function(req, res, next){
+  UserController.create(req,res);
+});
 module.exports = router;
