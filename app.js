@@ -29,7 +29,7 @@ async function ApplyMigrations(){
             alter:true
         };
 
-        db.sequelize.sync({
+        await db.sequelize.sync({
             alter: migration_config.alter
         });
         console.log('Sincronização com o banco realizada com sucesso');
@@ -41,7 +41,7 @@ async function ApplyMigrations(){
 
 // Acionar a sincronização com o banco de dados
 
-ApplyMigrations();
+ ApplyMigrations();
 
 // Alterando para ouvir na porta 5000
 const PORT = 5000;

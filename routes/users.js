@@ -1,3 +1,5 @@
+// routes/users.js
+
 var express = require('express');
 var router = express.Router();
 
@@ -17,4 +19,15 @@ router.get('/', function(req, res, next) {
 router.post('/novoUsuario', function(req, res, next){
   UserController.create(req,res);
 });
+
+//rota para localizar todos usuários
+router.get('/localizaTodosUsuarios', function(req, res, next) {
+  UserController.localizaTodosUsuarios(req, res);
+});
+
+//rota para localizar usuário pelo ID
+router.get('/localizaUsuarioPeloId', function(req, res, next){
+  UserController.localizaUsuarioPeloId(req, res);
+});
+
 module.exports = router;
