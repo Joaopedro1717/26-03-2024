@@ -3,6 +3,7 @@
 var express = require('express');
 var router = express.Router();
 
+
 const db=require('../models');
 const userService = require('../services/userService'); //classe
 const UserService = new userService(db.User); //construção do objeto
@@ -29,5 +30,10 @@ router.get('/localizaTodosUsuarios', function(req, res, next) {
 router.get('/localizaUsuarioPeloId', function(req, res, next){
   UserController.localizaUsuarioPeloId(req, res);
 });
+
+router.post('/login', function(req, res, next){
+  UserController.login(req, res);
+});
+
 
 module.exports = router;
