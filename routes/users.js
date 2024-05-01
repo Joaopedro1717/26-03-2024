@@ -2,6 +2,8 @@
 
 var express = require('express');
 var router = express.Router();
+const AuthService = require('../services/authService');
+const auth = new AuthService();
 
 
 const db=require('../models');
@@ -22,18 +24,20 @@ router.post('/novoUsuario', function(req, res, next){
 });
 
 //rota para localizar todos usuários
-router.get('/localizaTodosUsuarios', function(req, res, next) {
+router.get('/localizaTodosUsuarios', auth.authenticateToken, (req, res, next) => {
   UserController.localizaTodosUsuarios(req, res);
+  res.json({ message: 'Acesso concedido', user: req.user });
 });
 
 //rota para localizar usuário pelo ID
 router.get('/localizaUsuarioPeloId', function(req, res, next){
-  UserController.localizaUsuarioPeloId(req, res);
+  UserController.localizaUsuarioPeloId(req, res); // Remove the () after UserController.localizaUsuarioPeloId
 });
 
-router.post('/login', function(req, res, next){
+router.post('/login', function (req, res, next) {
   UserController.login(req, res);
 });
+
 
 
 module.exports = router;

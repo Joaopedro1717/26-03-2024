@@ -3,7 +3,9 @@
 const { all } = require("../routes");
 const bcrypt = require('bcryptjs');
 const jwt = require('jsonwebtoken');
-const { authUser } = require("./authService");
+const AuthService = require("./authService");
+const auth = new AuthService();
+// const { authUser, generatorToken } = require("./authService");
 
 class userService{
     //construtor da classe recebe a user model
@@ -94,7 +96,7 @@ class userService{
             }
     
             // Gerar token de acesso JWT
-            const token = jwt.sign({ userId: user.id }, 'seu_secreto_jwt', { expiresIn: '1h' });
+            const token = auth.generatorToken(user);
     
             return token;
         } catch (error) {
