@@ -1,4 +1,4 @@
-// .models/product.js
+// .models/user.js
 
 const Sequelize = require('sequelize');
 // const { sequelize } = require('.');
@@ -6,7 +6,7 @@ const Sequelize = require('sequelize');
 //Jeito do Escobar
 module.exports= (sequelize) => {
 
-    const Product = sequelize.define('Product',{
+    const Deposit = sequelize.define('Deposit',{
         id:{
             type: Sequelize.INTEGER,
             primaryKey:true,
@@ -21,5 +21,5 @@ module.exports= (sequelize) => {
             allowNull:false,
         }
     });
-    return Product;
+    return Deposit;
 };
