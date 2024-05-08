@@ -29,6 +29,11 @@ async function ApplyMigrations(){
             alter:true
         };
 
+        db.Deposit.hasMany(db.MovimentarProduto, { foreignKey: 'depositId' });
+        db.Product.hasMany(db.MovimentarProduto, { foreignKey: 'productId' });
+        db.MovimentarProduto.belongsTo(db.Deposit, { foreignKey: 'depositId' });
+        db.MovimentarProduto.belongsTo(db.Product, { foreignKey: 'productId' });
+
         await db.sequelize.sync({
             alter: migration_config.alter
         });
