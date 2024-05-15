@@ -23,6 +23,7 @@ class AuthService {
     async verifyToken(token) {
         try {
             const decoded = jwt.verify(token, 'seu_secreto_jwt');
+
             return decoded;
         } catch (error) {
             throw new Error('Token inválido');
@@ -40,6 +41,7 @@ class AuthService {
         try {
                 const decoded = jwt.verify(token, 'seu_secreto_jwt');
             req.user = decoded; // Armazena os dados do usuário decodificados na requisição
+            
             next(); // Chama a próxima função de middleware
         } catch (error) {
             return res.status(403).json({ message: 'Falha na autenticação' });

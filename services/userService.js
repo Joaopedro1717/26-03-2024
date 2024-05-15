@@ -38,10 +38,10 @@ class userService{
         }
     }
     //localizaUsuarioPeloLogin
-    async localizaTodosUsuarios(login, senha){
+    async localizaTodosUsuarios(){
         try {
-            const AllUsers = await this.User.findAll();
-            return AllUsers? AllUsers: null;
+            const AllUsers =  await this.User.findAll();
+            return AllUsers ? AllUsers : null;
             
         } catch (error) {
             throw error;

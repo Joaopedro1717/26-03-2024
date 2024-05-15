@@ -21,10 +21,9 @@ class userController{
     }
 
     async localizaTodosUsuarios(req, res) {
-        const {login, senha} = req.body;
-
+        
         try {
-            const allUsers = await this.userService.localizaTodosUsuarios(login, senha);
+            const allUsers = await this.userService.localizaTodosUsuarios();
             res.status(200).json(allUsers);
 
         } catch (error) {

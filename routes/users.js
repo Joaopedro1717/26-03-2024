@@ -26,7 +26,6 @@ router.post('/novoUsuario', function(req, res, next){
 //rota para localizar todos usuários
 router.get('/localizaTodosUsuarios', auth.authenticateToken, (req, res, next) => {
   UserController.localizaTodosUsuarios(req, res);
-  res.json({ message: 'Acesso concedido', user: req.user });
 });
 
 //rota para localizar usuário pelo ID
