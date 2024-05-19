@@ -32,7 +32,6 @@ class userService{
             // return null;
             // }
         }
-        
         catch(error){
             throw error;
         }

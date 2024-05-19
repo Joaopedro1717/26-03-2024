@@ -5,6 +5,8 @@ var logger = require('morgan');
 
 var indexRouter = require('./routes/index');
 var usersRouter = require('./routes/users');
+var productsRouter = require('./routes/products');
+var depositsRouter = require('./routes/deposits');
 
 var app = express();
 
@@ -16,7 +18,8 @@ app.use(express.static(path.join(__dirname, 'public')));
 
 app.use('/', indexRouter);
 app.use('/users', usersRouter);
-
+app.use('/products', productsRouter);
+app.use('/deposits', depositsRouter);
 const db = require('./models');
 
 // Aplicar as migration (integrar com o banco de dados [MySql])
@@ -49,7 +52,7 @@ async function ApplyMigrations(){
  ApplyMigrations();
 
 // Alterando para ouvir na porta 5000
-const PORT = 5000;
+const PORT = 4000;
 app.listen(PORT, () => {
     console.log(`Server is running on port ${PORT}`);
 });

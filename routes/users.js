@@ -36,9 +36,4 @@ router.get('/localizaUsuarioPeloId', function(req, res, next){
 router.post('/login', function (req, res, next) {
   UserController.login(req, res);
 });
-
-
-
-
-
 module.exports = router;

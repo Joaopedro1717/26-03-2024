@@ -7,7 +7,7 @@ class userController{
     }
 
     async create(req, res, next){
-        const {nome, email, senha} = req.body; 
+        const {nome, email, senha} = req.body;
         try {
             const novoUser = await this.userService.create(nome, email, senha);
 
@@ -16,18 +16,17 @@ class userController{
         } catch (error) {
             console.log(error);
             res.status(500).json({error:'Erro ao inserir o novo usuário.'});
-            
         }
     }
 
     async localizaTodosUsuarios(req, res) {
-        
+
         try {
             const allUsers = await this.userService.localizaTodosUsuarios();
             res.status(200).json(allUsers);
 
         } catch (error) {
-            res.status(400).json({error:'Login inválido.'});
+            res.status(400).json({error:'Não foi possível localizar todos os usuários.'});
         }       
     }
 
@@ -53,8 +52,5 @@ class userController{
             res.status(401).json({ error: error.message });
         }
     }
-    
-
-
 }
 module.exports = userController;
