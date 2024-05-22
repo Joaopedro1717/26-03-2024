@@ -3,7 +3,8 @@
 const { all } = require("../routes");
 const bcrypt = require('bcryptjs');
 const jwt = require('jsonwebtoken');
-const AuthService = require("./authService");
+//const AuthService = require("./authService");
+const AuthService = require('../auth/AuthService');
 const auth = new AuthService();
 // const { authUser, generatorToken } = require("./authService");
 

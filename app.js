@@ -7,6 +7,7 @@ var indexRouter = require('./routes/index');
 var usersRouter = require('./routes/users');
 var productsRouter = require('./routes/products');
 var depositsRouter = require('./routes/deposits');
+var moveProductsRouter = require('./routes/moveProducts');
 
 var app = express();
 
@@ -20,6 +21,7 @@ app.use('/', indexRouter);
 app.use('/users', usersRouter);
 app.use('/products', productsRouter);
 app.use('/deposits', depositsRouter);
+app.use('/moveProducts', moveProductsRouter);
 const db = require('./models');
 
 // Aplicar as migration (integrar com o banco de dados [MySql])
@@ -32,10 +34,10 @@ async function ApplyMigrations(){
             alter:true
         };
 
-        db.Deposit.hasMany(db.MovimentarProduto, { foreignKey: 'depositId' });
-        db.Product.hasMany(db.MovimentarProduto, { foreignKey: 'productId' });
-        db.MovimentarProduto.belongsTo(db.Deposit, { foreignKey: 'depositId' });
-        db.MovimentarProduto.belongsTo(db.Product, { foreignKey: 'productId' });
+        db.Deposit.hasMany(db.MoveProduct, { foreignKey: 'depositId' });
+        db.Product.hasMany(db.MoveProduct, { foreignKey: 'productId' });
+        db.MoveProduct.belongsTo(db.Deposit, { foreignKey: 'depositId' });
+        db.MoveProduct.belongsTo(db.Product, { foreignKey: 'productId' });
 
         await db.sequelize.sync({
             alter: migration_config.alter
