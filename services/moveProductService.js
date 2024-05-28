@@ -29,7 +29,25 @@ class moveProductService{
 
     async findMovementByProduct(productId){
         try { 
-            const IdFindMovementByProduct = await this.MoveProduct.findAll();
+            const IdFindMovementByProduct = await this.MoveProduct.findAll({
+                where: {
+                    productId: productId
+                }               
+            });
+            return IdFindMovementByProduct ? IdFindMovementByProduct : null;
+        } catch (error) {
+            throw error;
+        }
+    }
+
+    async findMovementByDeposit(depositId){
+        try { 
+            const IdFindMovementByDeposit = await this.MoveProduct.findAll({
+                where: {
+                    depositId: depositId
+                }               
+            });
+            return IdFindMovementByDeposit ? IdFindMovementByDeposit : null;
         } catch (error) {
             throw error;
         }

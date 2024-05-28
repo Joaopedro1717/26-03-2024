@@ -17,7 +17,11 @@ router.post('/newMoveProduct', function(req, res, next){
 });
 
 router.get('/findMovementsByProduct', function(req, res, next){
-    
+    MoveProductController.findMovementByProduct(req, res);
+});
+
+router.get('/findMovementsByDeposit', function(req, res, next){
+    MoveProductController.findMovementByDeposit(req, res);
 });
 
 module.exports = router;
