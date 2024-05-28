@@ -5,7 +5,7 @@ class productController{
         this.productService = productService;
     }
 
-    async create (req, res, next){
+    async create(req, res, next){
         const {nome, ativo} = req.body;
         try {
 

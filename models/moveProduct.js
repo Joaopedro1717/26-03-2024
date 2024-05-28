@@ -17,14 +17,14 @@ module.exports= (sequelize) => {
         productId: {
             type: Sequelize.INTEGER,
         },
-        movimentType:{
-            type: Sequelize.STRING,
+        movementType:{
+            type: Sequelize.ENUM('entrada', 'saída'),
         }, 
         amount:{ 
             type: Sequelize.INTEGER,
         },
         unitPrice: {
-            type: Sequelize.FLOAT, 
+            type: Sequelize.FLOAT,
         },
         movementDate: {
             type: Sequelize.DATE
