@@ -16,5 +16,8 @@ router.post('/newMoveProduct', function(req, res, next){
     MoveProductController.create(req, res);
 });
 
+router.get('/findMovementsByProduct', function(req, res, next){
+    
+});
 
 module.exports = router;

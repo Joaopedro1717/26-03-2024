@@ -26,6 +26,14 @@ class moveProductService{
             throw error;
         }
     }
+
+    async findMovementByProduct(productId){
+        try { 
+            const IdFindMovementByProduct = await this.MoveProduct.findAll();
+        } catch (error) {
+            throw error;
+        }
+    }
 }
 
 module.exports = moveProductService;

@@ -12,7 +12,7 @@ const ProductService = new productService(db.Product); //construção do objeto
 const productController = require('../controllers/productController'); //classe
 const ProductController = new productController(ProductService); //construção do objeto
 
-//rota para criar um novo usuário
+//rota para criar um novo produto
 router.post('/newProduct', auth.authenticateToken, (req, res, next) => {
     ProductController.create(req,res);
   });

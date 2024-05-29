@@ -1,4 +1,4 @@
-// .models/user.js
+// .models/deposit.js
 
 const Sequelize = require('sequelize');
 // const { sequelize } = require('.');
