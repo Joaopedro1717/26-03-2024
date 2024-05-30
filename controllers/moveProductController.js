@@ -33,7 +33,17 @@ class moveProductController{
             const findMovementByDeposit = await this.moveProductService.findMovementByDeposit(depositId);
             res.status(200).json(findMovementByDeposit);
         } catch (error) {
-            res.status(500).json({error: `Error ao exibir movementos pelo Id do deposito`});
+            res.status(500).json({error: `Error ao exibir movimentos pelo Id do deposito`});
+        }
+    }
+
+    async findMovementByDate(req, res) {
+        const { startDate, endDate } = req.body;
+        try {
+            const MovementsByDate = await this.moveProductService.findMovementByDate(startDate, endDate);
+            res.status(200).json(MovementsByDate);
+        } catch (error) {
+            res.status(500).json({error: `Erro ao exibir movimentos pela data`});
         }
     }
 }

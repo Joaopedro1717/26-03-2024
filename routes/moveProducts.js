@@ -24,4 +24,8 @@ router.get('/findMovementsByDeposit', function(req, res, next){
     MoveProductController.findMovementByDeposit(req, res);
 });
 
+router.get('/findMovementsByDate', function(req, res, next){
+    MoveProductController.findMovementByDate(req, res);
+});
+
 module.exports = router;

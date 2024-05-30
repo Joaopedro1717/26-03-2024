@@ -2,7 +2,7 @@
 
 //const moveProduct = require("../models/moveProduct");
 const { all } = require("../routes");
-
+const { Op } = require('sequelize');
 class moveProductService{
     constructor(moveProductModel) {
         this.MoveProduct = moveProductModel;
@@ -48,6 +48,21 @@ class moveProductService{
                 }               
             });
             return IdFindMovementByDeposit ? IdFindMovementByDeposit : null;
+        } catch (error) {
+            throw error;
+        }
+    }
+
+    async findMovementByDate(startDate, endDate){
+        try {
+            const MovementsByDate = await this.MoveProduct.findAll({
+                where: {
+                    movementDate: {
+                        [Op.between]: [startDate, endDate]
+                    }
+                }
+            });
+            return MovementsByDate;           
         } catch (error) {
             throw error;
         }
