@@ -4,12 +4,48 @@
 const { all } = require("../routes");
 const { Op } = require('sequelize');
 class moveProductService{
-    constructor(moveProductModel) {
+    constructor(moveProductModel, productModel, depositModel) {
         this.MoveProduct = moveProductModel;
+        this.Product = productModel;
+        this.Deposit = depositModel;
     }
 
     async create(depositId, productId, movementType, amount, unitPrice, movementDate) {
         try {
+            // Verificação da existência do depósito
+            const depositExists = await this.Deposit.findByPk(depositId);
+            if (!depositExists) {
+                throw new Error(`Deposit with ID ${depositId} does not exist.`);
+            }
+            // Verificação da existência do produto
+            const productExists = await this.Product.findByPk(productId);
+            if (!productExists) {
+                throw new Error(`Product with ID ${productId} does not exist.`);
+            }
+            // Validação do tipo de movimentação
+            const validMovementTypes = ['entrada', 'saída'];
+            if (!validMovementTypes.includes(movementType)) {
+                throw new Error(`Invalid movement type. Allowed types are ${validMovementTypes.join(', ')}.`);
+            }
+            // Validação da quantidade
+            if (amount <= 0) {
+                throw new Error('Amount must be a positive number greater than zero.');
+            }
+
+            // Validação do preço unitário
+            if (unitPrice <= 0) {
+                throw new Error('Unit price must be a positive number greater than zero.');
+            }
+
+            // Validação da data de movimentação
+            const movementDateObject = new Date(movementDate);
+            if (isNaN(movementDateObject.getTime())) {
+                throw new Error('Invalid movement date.');
+            }
+            if (movementDateObject > new Date()) {
+                throw new Error('Movement date cannot be in the future.');
+            }
+
             const newMoveProduct = await this.MoveProduct.create(
                 {
                     depositId: depositId,
@@ -18,8 +54,8 @@ class moveProductService{
                     amount: amount,
                     unitPrice: unitPrice,
                     movementDate: movementDate
-                }
-            );
+                });
+            
             return newMoveProduct ? newMoveProduct : null;
             
         } catch (error) {
@@ -67,6 +103,8 @@ class moveProductService{
             throw error;
         }
     }
+
+
 }
 
 module.exports = moveProductService;

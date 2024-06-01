@@ -8,6 +8,8 @@ var usersRouter = require('./routes/users');
 var productsRouter = require('./routes/products');
 var depositsRouter = require('./routes/deposits');
 var moveProductsRouter = require('./routes/moveProducts');
+var departmentsRouter = require('/routes/departments');
+var costCentersRouter = require('/routes/costCenters');
 
 var app = express();
 
@@ -22,6 +24,8 @@ app.use('/users', usersRouter);
 app.use('/products', productsRouter);
 app.use('/deposits', depositsRouter);
 app.use('/moveProducts', moveProductsRouter);
+app.use('/departments', departmentsRouter);
+app.use('/costcenters', costCentersRouter);
 const db = require('./models');
 
 // Aplicar as migration (integrar com o banco de dados [MySql])
@@ -33,11 +37,19 @@ async function ApplyMigrations(){
             create: true,
             alter:true
         };
-
+        //Associação Movimentação productos 
         db.Deposit.hasMany(db.MoveProduct, { foreignKey: 'depositId' });
         db.Product.hasMany(db.MoveProduct, { foreignKey: 'productId' });
         db.MoveProduct.belongsTo(db.Deposit, { foreignKey: 'depositId' });
         db.MoveProduct.belongsTo(db.Product, { foreignKey: 'productId' });
+
+        //Associação Departamentos e Centro de custos
+        db.CostCenter.hasOne(db.Department, { foreignKey: 'costCenterId', as: "department" });
+        db.Department.belongsTo(db.CostCenter, { foreignKey: 'costCenterId', as: 'costCenter'});
+        
+        //Associação Usuário Departamento
+        db.Department.hasMany(db.User, { foreignKey: 'departmentId'});
+        db.User.belongsTo(db.Department, { foreignKey: 'departmentId'});
 
         await db.sequelize.sync({
             alter: migration_config.alter

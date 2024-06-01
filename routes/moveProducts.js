@@ -7,7 +7,7 @@ const auth = new AuthService();
 
 const db=require('../models');
 const moveProductService = require('../services/moveProductService');
-const MoveProductService = new moveProductService(db.MoveProduct);
+const MoveProductService = new moveProductService(db.MoveProduct, db.Product, db.Deposit);
 
 const moveProductController = require('../controllers/moveProductController');
 const MoveProductController = new moveProductController(MoveProductService);

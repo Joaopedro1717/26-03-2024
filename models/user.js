@@ -24,6 +24,10 @@ module.exports= (sequelize) => {
         senha:{
             type: Sequelize.STRING,
             allowNull: false,
+        },
+        departmentId:{
+            type: Sequelize.INTEGER,
+            allowNull:false
         }
     });
     return User;
