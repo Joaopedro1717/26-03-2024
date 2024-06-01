@@ -7,9 +7,9 @@ class userController{
     }
 
     async create(req, res, next){
-        const {nome, email, senha} = req.body;
+        const {nome, email, senha, nameDepartment} = req.body;
         try {
-            const novoUser = await this.userService.create(nome, email, senha);
+            const novoUser = await this.userService.create(nome, email, senha, nameDepartment);
 
             res.status(200).json(novoUser);
 

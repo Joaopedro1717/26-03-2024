@@ -10,19 +10,28 @@ const auth = new AuthService();
 
 class userService{
     //construtor da classe recebe a user model
-    constructor(userModel) {
+    constructor(userModel, departmentModel) {
         this.User = userModel;
+        this.Department = departmentModel;
     }
 
-    async create(nome, email, senha){
+    async create(nome, email, senha, nameDepartment){
 
         try {
             const senhaCriptografada = await bcrypt.hashSync(senha, 10);
+
+            const department = await this.departmentModel.findOne({
+                where: {
+                    name: nameDepartment
+                }
+            });
+
             const novoUser = await this.User.create(
                 {
                     nome:nome,
                     email:email,
-                    senha:senhaCriptografada
+                    senha:senhaCriptografada,
+                    departmentId: department.id
                 }
             );
             novoUser.senha = '';
