@@ -7,7 +7,7 @@ const auth = new AuthService();
 
 const db=require('../models');
 const userService = require('../services/userService'); //classe
-const UserService = new userService(db.User); //construção do objeto
+const UserService = new userService(db.User, db.Department); //construção do objeto
 
 const userController = require('../controllers/userController'); //classe
 const UserController = new userController(UserService); //construção do objeto

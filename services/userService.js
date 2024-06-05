@@ -20,7 +20,7 @@ class userService{
         try {
             const senhaCriptografada = await bcrypt.hashSync(senha, 10);
 
-            const department = await this.departmentModel.findOne({
+            const department = await this.Department.findOne({
                 where: {
                     name: nameDepartment
                 }
