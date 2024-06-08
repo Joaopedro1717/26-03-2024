@@ -1,4 +1,4 @@
-// .routes/ .products.js
+// .routes/products.js
 
 var express = require('express');
 var router = express.Router();
