@@ -16,4 +16,8 @@ router.post('/newSupplier', function(req, res, next){
     SupplierController.create(req, res);
 });
 
+router.post('/alterSupplier', function(req, res, next){
+    SupplierController.update(req, res);
+});
+
 module.exports = router;

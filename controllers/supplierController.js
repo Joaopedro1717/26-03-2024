@@ -15,6 +15,18 @@ class supplierController{
             res.status(500).json({error: `Erro ao criar novo fornecedor`});
         }
     }
+
+    async update(req, res, next) {
+        const {id, name, cnpj} = req.body;
+
+        try {
+            const alterSupplier = await this.supplierService.update(id, name, cnpj);
+            res.status(200).json(alterSupplier);
+        } catch (error) {
+            console.log(error);
+            res.status(500).json({error: `Erro ao alterar fornecedor`});           
+        }
+    }
 }
 
 module.exports = supplierController;

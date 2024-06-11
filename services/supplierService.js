@@ -22,6 +22,25 @@ class supplierService{
             throw error;
         }
     }
+
+    async update(id, name, cnpj) {
+        try {
+            
+            const supplier = await this.Supplier.findByPk(id);
+
+            if(!supplier){
+                console.log("Erro ao alterar fornecedor");
+            }
+
+            supplier.name = name !== undefined ? name : supplier.name;
+            supplier.cnpj = cnpj !== undefined ? cnpj : supplier.cnpj;
+
+            await supplier.save();
+
+        } catch (error) {
+            
+        }
+    }
 }
 
 module.exports = supplierService;
