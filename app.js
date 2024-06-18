@@ -10,6 +10,7 @@ var depositsRouter = require('./routes/deposits');
 var moveProductsRouter = require('./routes/moveProducts');
 var departmentsRouter = require('./routes/departments');
 var suppliersRouter = require('./routes/suppliers');
+var proposalsRouter = require('./routes/proposals');
 
 var app = express();
 
@@ -26,6 +27,7 @@ app.use('/deposits', depositsRouter);
 app.use('/moveProducts', moveProductsRouter);
 app.use('/departments', departmentsRouter);
 app.use('/suppliers', suppliersRouter);
+app.use('/proposals', proposalsRouter);
 const db = require('./models');
 
 // Aplicar as migration (integrar com o banco de dados [MySql])
@@ -50,6 +52,15 @@ async function ApplyMigrations(){
         //Associação Usuário Departamento
         db.Department.hasMany(db.User, { foreignKey: 'departmentId', as: 'users'});
         db.User.belongsTo(db.Department, { foreignKey: 'departmentId', as: 'department'});
+
+        //Associação Proposta Comprador, Produtos, Fornecedores e o valor da proposta
+        db.User.hasMany(db.Proposal, { foreignKey: 'buyer' });
+        db.Proposal.belongsTo(db.User, { foreignKey: 'buyer' });
+        db.Product.hasMany(db.Proposal, { foreignKey: 'productId'});
+        db.Proposal.belongsTo(db.Product, { foreignKey: 'productId', as: 'Product'});
+        db.Supplier.hasMany(db.Proposal, { foreignKey: 'supplierId', as: 'Supplier'});
+        db.Proposal.belongsTo(db.Supplier, { foreignKey: 'supplierId', as: 'Supplier'});
+
 
         await db.sequelize.sync({
             alter: migration_config.alter
