@@ -47,19 +47,29 @@ async function ApplyMigrations(){
 
         //Associação Departamentos e Centro de custos
         db.CostCenter.hasOne(db.Department, { foreignKey: 'costCenterId', as: "department" });
-        db.Department.belongsTo(db.CostCenter, { foreignKey: 'costCenterId', as: 'costCenter'});
+        db.Department.belongsTo(db.CostCenter, { foreignKey: 'costCenterId', as: 'costCenter' });
         
         //Associação Usuário Departamento
-        db.Department.hasMany(db.User, { foreignKey: 'departmentId', as: 'users'});
-        db.User.belongsTo(db.Department, { foreignKey: 'departmentId', as: 'department'});
+        db.Department.hasMany(db.User, { foreignKey: 'departmentId', as: 'users' });
+        db.User.belongsTo(db.Department, { foreignKey: 'departmentId', as: 'department' });
 
         //Associação Proposta Comprador, Produtos, Fornecedores e o valor da proposta
         db.User.hasMany(db.Proposal, { foreignKey: 'buyer' });
         db.Proposal.belongsTo(db.User, { foreignKey: 'buyer' });
-        db.Product.hasMany(db.Proposal, { foreignKey: 'productId'});
-        db.Proposal.belongsTo(db.Product, { foreignKey: 'productId', as: 'Product'});
-        db.Supplier.hasMany(db.Proposal, { foreignKey: 'supplierId', as: 'Supplier'});
-        db.Proposal.belongsTo(db.Supplier, { foreignKey: 'supplierId', as: 'Supplier'});
+        db.Product.hasMany(db.Proposal, { foreignKey: 'productId' });
+        db.Proposal.belongsTo(db.Product, { foreignKey: 'productId', as: 'Product' });
+        db.Supplier.hasMany(db.Proposal, { foreignKey: 'supplierId', as: 'Supplier' });
+        db.Proposal.belongsTo(db.Supplier, { foreignKey: 'supplierId', as: 'Supplier' });
+        db.Proposal.hasMany(db.Purchase, { foreignKey: 'proposalId', as: 'Proposal' });
+        db.Purchase.belongsTo(db.Proposal, { foreignKey: 'proposalId' });
+
+        //Associação Compras Fornecedores, propostas, compradores, produtos e contas a pagar
+        db.Supplier.hasMany(db.Purchase, { foreignKey: 'supplierId', as: 'Supplier' });
+        db.Purchase.belongsTo(db.Supplier, { foreignKey: 'supplierId' });    
+        db.User.hasMany(db.Purchase, { foreignKey: 'buyerId' });
+        db.Purchase.belongsTo(db.User, { foreignKey: 'buyerId' });
+        db.Product.hasMany(db.Purchase, { foreignKey: "productId" });
+        db.Purchase.belongsTo(db.Product, { foreignKey: 'productId' });
 
 
         await db.sequelize.sync({
