@@ -26,6 +26,11 @@ class costCenterService {
             return null;
         }
     }
+
+    async findCostCenterById(id) {
+        const costCenterId = await this.costCenterModel.findOne({where: {id: id}});
+        return costCenterId ? costCenterId : null;
+    }
 }
 
 module.exports = costCenterService

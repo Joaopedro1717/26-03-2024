@@ -10,56 +10,106 @@ class moveProductService{
         this.Deposit = depositModel;
     }
 
-    async create(depositId, productId, movementType, amount, unitPrice, movementDate) {
+    async getAmount(productId, depositId){
+        const lastMovement = await this.MoveProduct.findOne({
+            where: {
+                productId: productId,
+                depositId: depositId
+            },
+            order: [['movementDate', 'DESC']]
+        });
+
+        return lastMovement ? lastMovement.amount : 0;
+    }
+
+    async createEntrance(depositName, productName, movementSubType, amountEntrance, unitPrice, movementDate){
         try {
-            // Verificação da existência do depósito
-            const depositExists = await this.Deposit.findByPk(depositId);
-            if (!depositExists) {
-                throw new Error(`Deposit with ID ${depositId} does not exist.`);
-            }
-            // Verificação da existência do produto
-            const productExists = await this.Product.findByPk(productId);
-            if (!productExists) {
-                throw new Error(`Product with ID ${productId} does not exist.`);
-            }
-            // Validação do tipo de movimentação
-            const validMovementTypes = ['entrada', 'saída'];
-            if (!validMovementTypes.includes(movementType)) {
-                throw new Error(`Invalid movement type. Allowed types are ${validMovementTypes.join(', ')}.`);
-            }
-            // Validação da quantidade
-            if (amount <= 0) {
-                throw new Error('Amount must be a positive number greater than zero.');
+            
+            const product = await this.Product.findOne({where: { nome: productName }});
+            
+            if(product == null) {
+                console.error("Produto não encontrado");
             }
 
-            // Validação do preço unitário
-            if (unitPrice <= 0) {
-                throw new Error('Unit price must be a positive number greater than zero.');
+            const deposit = await this.Deposit.findOne({where: { nome: depositName}});
+
+            if(deposit == null) {
+                console.error("Deposito não encontrado");
             }
 
-            // Validação da data de movimentação
-            const movementDateObject = new Date(movementDate);
-            if (isNaN(movementDateObject.getTime())) {
-                throw new Error('Invalid movement date.');
-            }
-            if (movementDateObject > new Date()) {
-                throw new Error('Movement date cannot be in the future.');
+            const movementType = "entrada";
+
+            let amount = await this.getAmount(product.id, deposit.id);
+
+            if(amountEntrance <= 0) {
+                console.log("Não é possível gravar valores abaixos ou iguais a 0");
             }
 
-            const newMoveProduct = await this.MoveProduct.create(
+            amount += amountEntrance;
+
+            const newEntranceMovement = await this.MoveProduct.create(
                 {
-                    depositId: depositId,
-                    productId: productId,
+                    productId: product.id,
+                    depositId: deposit.id,
                     movementType: movementType,
+                    movementSubType: movementSubType,
                     amount: amount,
+                    amountEntranceExit: amountEntrance,
                     unitPrice: unitPrice,
                     movementDate: movementDate
-                });
-            
-            return newMoveProduct ? newMoveProduct : null;
-            
+                }
+            );
+
+            return newEntranceMovement ? newEntranceMovement : null;
         } catch (error) {
-            throw error;
+            console.error(error);
+        }
+    }
+
+    async createExit(depositName, productName, movementSubType, amountExit, movementDate) {
+        try {
+            const product = await this.Product.findOne({ where: { nome: productName}});
+            if (product == null){
+                console.error("Produto não encontrado");
+            }
+
+            const deposit = await this.Deposit.findOne({ where: { nome: depositName}});
+            if(deposit == null){
+                console.error("Depósito não encontrado")
+            }
+
+            const movementType = "saída";
+
+            let amount = await this.getAmount(product.id, deposit.id);
+
+            if(amountExit <= 0) {
+                console.log("Não é possível retirar valores maiores que a quantidade atual");
+            }
+
+            amount += amountExit;
+
+            const lastMovement = await this.MoveProduct.findOne({
+                where: {
+                    productId: product.id,
+                    depositId: deposit.id
+                },
+                order: [['movementDate', 'DESC']]
+            });
+
+            const newExitMovement = await this.MoveProduct.create({
+                productId: product.id,
+                depositId: deposit.id,
+                movementType: movementType,
+                movementSubType: movementSubType,
+                amount: amount,
+                amountEntranceExit: amountExit,
+                unitPrice: lastMovement.unitPrice,
+                movementDate: movementDate
+            });
+
+            return newExitMovement ? newExitMovement : null;
+        } catch (error) {
+            console.error(error);
         }
     }
 

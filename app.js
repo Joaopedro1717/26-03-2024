@@ -63,14 +63,18 @@ async function ApplyMigrations(){
         db.Proposal.hasMany(db.Purchase, { foreignKey: 'proposalId', as: 'Proposal' });
         db.Purchase.belongsTo(db.Proposal, { foreignKey: 'proposalId' });
 
+        
         //Associação Compras Fornecedores, propostas, compradores, produtos e contas a pagar
-        db.Supplier.hasMany(db.Purchase, { foreignKey: 'supplierId', as: 'Supplier' });
-        db.Purchase.belongsTo(db.Supplier, { foreignKey: 'supplierId' });    
+        db.Supplier.hasMany(db.Purchase, { foreignKey: 'supplierId', as: 'SupplierPurchase' });
+        db.Purchase.belongsTo(db.Supplier, { foreignKey: 'supplierId' });
         db.User.hasMany(db.Purchase, { foreignKey: 'buyerId' });
         db.Purchase.belongsTo(db.User, { foreignKey: 'buyerId' });
         db.Product.hasMany(db.Purchase, { foreignKey: "productId" });
         db.Purchase.belongsTo(db.Product, { foreignKey: 'productId' });
 
+        //Associação Compras Contas a pagar
+        db.Purchase.hasMany(db.BillToPay, { foreignKey: 'purchaseId', as: 'BillToPay'});
+        db.BillToPay.belongsTo(db.Purchase, { foreignKey: 'purchaseId', as: 'Purchase'});
 
         await db.sequelize.sync({
             alter: migration_config.alter

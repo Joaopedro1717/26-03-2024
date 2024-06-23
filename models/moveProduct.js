@@ -13,21 +13,35 @@ module.exports= (sequelize) => {
         },
         depositId: {
             type: Sequelize.INTEGER,
+            allowNull: false
         },
         productId: {
             type: Sequelize.INTEGER,
+            allowNull: false
         },
         movementType:{
             type: Sequelize.ENUM('entrada', 'saída'),
+            allowNull: false
         }, 
+        movementSubType:{
+            type: Sequelize.STRING,
+            allowNull: false
+        },
         amount:{ 
             type: Sequelize.INTEGER,
+            allowNull: false
+        },
+        amountEntranceExit:{
+            type: Sequelize.INTEGER,
+            allowNull: false
         },
         unitPrice: {
             type: Sequelize.FLOAT,
+            allowNull: false
         },
         movementDate: {
-            type: Sequelize.DATE
+            type: Sequelize.DATE,
+            allowNull: false
         }    
     });
         return MoveProduct;

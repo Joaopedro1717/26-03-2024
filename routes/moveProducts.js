@@ -12,8 +12,12 @@ const MoveProductService = new moveProductService(db.MoveProduct, db.Product, db
 const moveProductController = require('../controllers/moveProductController');
 const MoveProductController = new moveProductController(MoveProductService);
 
-router.post('/newMoveProduct', function(req, res, next){
-    MoveProductController.create(req, res);
+router.post('/newEntranceMovement', function(req, res, next){
+    MoveProductController.createEntrance(req, res);
+});
+
+router.post('/newExitMovement', function(req, res){
+    MoveProductController.createExit(req, res);
 });
 
 router.get('/findMovementsByProduct', function(req, res, next){

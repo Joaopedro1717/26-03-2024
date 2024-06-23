@@ -5,15 +5,25 @@ class moveProductController{
         this.moveProductService = moveProductService;
     }
 
-    async create(req, res, next) {
-        const {depositId, productId, movementType, amount, unitPrice, movementDate} = req.body;
+    async createEntrance(req, res) {
+        const {depositName, productName, movementSubType, amountEntrance, unitPrice, movementDate} = req.body;
         try {
-
-            const newMoveProduct = await this.moveProductService.create(depositId, productId, movementType, amount, unitPrice, movementDate);
-            res.status(200).json(newMoveProduct);            
+            
+            const newEntranceMovement = await this.moveProductService.createEntrance(depositName, productName, movementSubType, amountEntrance, unitPrice, movementDate);
+            res.status(200).json(newEntranceMovement);
         } catch (error) {
-            console.log(error);
-            res.status(500).json({error: `Error ao criar nova movimentação de produto`});
+            res.status(500).json({error: `Erro ao criar novo movimento de entrada.`});
+        }
+    }
+
+    async createExit(req, res) {
+        const {depositName, productName, movementSubType, amountExit, movementDate} = req.body;
+        try {
+            
+            const newExitMovement = await this.moveProductService.createExit(depositName, productName, movementSubType, amountExit, movementDate);
+            res.status(200).json(newExitMovement);
+        } catch (error) {
+            res.status(500).json({error: `Erro ao criar novo movimento de saída.`});
         }
     }
 
