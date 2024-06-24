@@ -11,7 +11,7 @@ var moveProductsRouter = require('./routes/moveProducts');
 var departmentsRouter = require('./routes/departments');
 var suppliersRouter = require('./routes/suppliers');
 var proposalsRouter = require('./routes/proposals');
-var billToPayRouter = require('./routes/billToPay');
+var billToPayRouter = require('./routes/billsToPay');
 
 var app = express();
 
@@ -41,6 +41,10 @@ async function ApplyMigrations(){
             create: true,
             alter:true
         };
+
+        await db.Purchase.sync();
+        await db.BillToPay.sync();
+
         //Associação Movimentação productos 
         db.Deposit.hasMany(db.MoveProduct, { foreignKey: 'depositId' });
         db.Product.hasMany(db.MoveProduct, { foreignKey: 'productId' });
