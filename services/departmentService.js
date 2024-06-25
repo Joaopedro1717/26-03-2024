@@ -53,8 +53,8 @@ class departmentService{
     async buyMaterial(productName, depositName, quantity, installment, expirationDate) {
         try {
 
-            const  product = await this.Product.findOne({
-                where: { nome: productName}
+            const product = await this.Product.findOne({
+                where: {nome: productName}
             });
 
             const proposal = await this.Proposal.findAll({

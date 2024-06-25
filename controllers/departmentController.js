@@ -30,7 +30,7 @@ class departmentController{
     }
     
     async buyMaterial(req, res){
-        const {productName, quantity, depositName, installment, expirationDate} = req.body;
+        const {productName, depositName, quantity, installment, expirationDate} = req.body;
 
         try {
             const newBuyMaterial = await this.departmentService.buyMaterial(productName, depositName, quantity, installment, expirationDate);
