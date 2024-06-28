@@ -1,19 +1,18 @@
 // .services/departmentService.js
 
-class departmentService{
-    
+class departmentService {
+
     constructor(depositModel, departmentModel, costCenterModel, moveProductService, proposalService, purchaseService, billToPayService, proposalModel, productModel, billToPayModel) {
         this.Deposit = depositModel;
         this.Department = departmentModel;
         this.CostCenter = costCenterModel;
-        this.Proposal = proposalModel;
-        this.Product = productModel;
-        this.BillToPay = billToPayModel;
-
         this.moveProductService = moveProductService;
         this.proposalService = proposalService;
         this.purchaseService = purchaseService;
         this.billToPayService = billToPayService;
+        this.Proposal = proposalModel;
+        this.Product = productModel;
+        this.BillToPay = billToPayModel;
     }
 
     async create(name, codeCostCenter, balanceCostCenter) {
@@ -23,14 +22,14 @@ class departmentService{
                 {
                     code: codeCostCenter,
                     balance: balanceCostCenter
-                
-            });
+
+                });
 
             const newDepartment = await this.Department.create(
                 {
                     name: name,
                     costCenterId: newCostCenter.id
-            });
+                });
 
             return newDepartment ? newDepartment : null
 
@@ -55,21 +54,21 @@ class departmentService{
         try {
 
             const product = await this.Product.findOne({
-                where: {nome: productName}
+                where: { nome: productName }
             });
 
             const proposals = await this.Proposal.findAll({
-                where: {productId: product.id}
+                where: { productId: product.id }
             });
 
-            if(proposals.length < 3){
+            if (proposals.length < 3) {
                 console.log("É necessário enviar ao menos 3 propostas");
             }
 
             let bestProposal = proposals[0];
 
-            for(const proposal of proposals) {
-                if(proposal.proposalValue < bestProposal.proposalValue) {
+            for (const proposal of proposals) {
+                if (proposal.proposalValue < bestProposal.proposalValue) {
                     bestProposal = proposal;
                 }
             }
@@ -86,7 +85,7 @@ class departmentService{
 
             do {
                 invoice = randonNumberGenerator();
-                trueInvoice = await this.BillToPay.findOne({ where: {invoice: invoice}});
+                trueInvoice = await this.BillToPay.findOne({ where: { invoice: invoice } });
             } while (trueInvoice);
 
             const newPurchase = await this.purchaseService.create(bestProposal.supplierId, bestProposal.id, bestProposal.buyer, bestProposal.productId, quantity, bestProposal.proposalValue, purchaseStatus);
