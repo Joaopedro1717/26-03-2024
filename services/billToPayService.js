@@ -2,11 +2,11 @@
 
 class billToPayService {
 
-    constructor(billToPayModel, departmentModel, costCenterModel, movementBIllToPayService){
+    constructor(billToPayModel, departmentModel, costCenterModel, movementBillToPayService){
         this.BillToPay = billToPayModel;
         this.Department = departmentModel;
         this.CostCenter = costCenterModel;
-        this.movementBIllToPayService = movementBIllToPayService;
+        this.movementBillToPayService = movementBillToPayService;
     }
 
     async create(totalPurchasePrice, installment, invoice, purchaseId, status, expirationDate) {
@@ -33,7 +33,7 @@ class billToPayService {
                 }
 
                 const movementType = "abertura";
-                await this.movementBIllToPayService.create(createdBillToPay[0].id, movementType, totalPurchasePrice, 0, 0);
+                await this.movementBillToPayService.create(createdBillToPay[0].id, movementType, totalPurchasePrice, 0, 0);
 
                 return createdBillToPay;
 
@@ -51,7 +51,7 @@ class billToPayService {
                 );
 
                 const movementType = "abertura";
-                await this.movementBIllToPayService.create(newBillToPay.id, movementType, totalPurchasePrice, 0, 0);
+                await this.movementBillToPayService.create(newBillToPay.id, movementType, totalPurchasePrice, 0, 0);
 
                 return newBillToPay ? newBillToPay : null;
             }
@@ -97,7 +97,7 @@ class billToPayService {
             await bill.save();
 
             const movementType = status;
-            await this.movementBIllToPayService.create(bill.id, movementType, bill.totalPurchasePrice, 0, 0);
+            await this.movementBillToPayService.create(bill.id, movementType, bill.totalPurchasePrice, 0, 0);
 
             return bill;
 
@@ -131,7 +131,7 @@ class billToPayService {
             await bill.save();
 
             const movementType = canceledStatus;
-            await this.movementBIllToPayService.create(bill.id, movementType, 0, 0, 0);
+            await this.movementBillToPayService.create(bill.id, movementType, 0, 0, 0);
         } catch (error) {
             console.error(error);
         }

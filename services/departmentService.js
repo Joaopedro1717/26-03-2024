@@ -2,7 +2,8 @@
 
 class departmentService{
     
-    constructor(departmentModel, costCenterModel, moveProductService, proposalService, purchaseService, billToPayService, proposalModel, productModel, billToPayModel) {
+    constructor(depositModel, departmentModel, costCenterModel, moveProductService, proposalService, purchaseService, billToPayService, proposalModel, productModel, billToPayModel) {
+        this.Deposit = depositModel;
         this.Department = departmentModel;
         this.CostCenter = costCenterModel;
         this.Proposal = proposalModel;
@@ -57,23 +58,23 @@ class departmentService{
                 where: {nome: productName}
             });
 
-            const proposal = await this.Proposal.findAll({
+            const proposals = await this.Proposal.findAll({
                 where: {productId: product.id}
             });
 
-            if(proposal.length < 3){
+            if(proposals.length < 3){
                 console.log("É necessário enviar ao menos 3 propostas");
             }
 
-            let bestProposal = proposal[0];
+            let bestProposal = proposals[0];
 
-            for(const proposal of proposal) {
+            for(const proposal of proposals) {
                 if(proposal.proposalValue < bestProposal.proposalValue) {
                     bestProposal = proposal;
                 }
             }
 
-            let totalPurchaseValue = quantity * bestProposal.proposalValue;
+            let totalPurchasePrice = quantity * bestProposal.proposalValue;
             const purchaseStatus = "pendente";
 
             function randonNumberGenerator(min = 1000, max = 5000) {

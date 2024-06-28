@@ -5,7 +5,7 @@ class purchaseService {
         this.Purchase = purchaseModel;
     }
 
-    async create(supplierId, proposalId, buyerId, productId, totalAmont, unitPrice, purchaseStatus) {
+    async create(supplierId, proposalId, buyerId, productId, totalAmount, unitPrice, purchaseStatus) {
         try {
             const newPurchase = await this.Purchase.create(
                 {
@@ -13,7 +13,7 @@ class purchaseService {
                     proposalId: proposalId,
                     buyerId: buyerId,
                     productId: productId,
-                    totalAmont: totalAmont,
+                    totalAmount: totalAmount,
                     unitPrice: unitPrice,
                     purchaseStatus: purchaseStatus
                 }

@@ -22,7 +22,7 @@ const MovementBillToPayService = new movementBillToPayService(db.movementBillToP
 const BillToPayService = new billToPayService(db.BillToPay, MovementBillToPayService);
 
 
-const DepartmentService = new departmentService(db.Department, db.CostCenter, MoveProductService, ProposalService, db.Proposal, db.Product, PurchaseService, BillToPayService, db.BillToPay);
+const DepartmentService = new departmentService(db.Deposit, db.Department, db.CostCenter, MoveProductService, ProposalService, PurchaseService, BillToPayService, db.Proposal, db.Product, db.BillToPay);
 
 const DepartmentController = new departmentController(DepartmentService);
 
