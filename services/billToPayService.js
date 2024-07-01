@@ -7,7 +7,6 @@ class billToPayService {
         this.Department = departmentModel;
         this.CostCenter = costCenterModel;
         this.movementBillToPayService = movementBillToPayService;
-        console.log("joao bunda mole")
     }
 
     async create(totalPurchasePrice, installment, invoice, purchaseId, status, expirationDate) {
@@ -68,10 +67,9 @@ class billToPayService {
         try {
 
             const bill = await this.BillToPay.findOne({
-                where: {
-                    invoice: invoice, status: "aberto",
-                    order: [['installment', 'ASC']]
-                }
+                where:{
+                    invoice: invoice, status:"aberto"},
+                    orders: [['installment', 'ASC']]                
             });
 
             const department = await this.Department.findOne({
