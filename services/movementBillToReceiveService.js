@@ -28,3 +28,5 @@ class movementBillToReceiveService {
         }
     }
 }
+
+module.exports = movementBillToReceiveService

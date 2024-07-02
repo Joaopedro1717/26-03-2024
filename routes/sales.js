@@ -1,6 +1,6 @@
 // ./routes/sales.js
 const moveProductService = require('../services/moveProductService');
-const saleDetailServices = require('../services/saleDetailService');
+const saleDetailService = require('../services/saleDetailService');
 const billToReceiveService = require('../services/billToReceiveService');
 const movementBillToReceiveService = require('../services/movementBillToReceiveService');
 
@@ -12,7 +12,6 @@ var express = require('express');
 var router = express.Router();
 const AuthService = require('../auth/AuthService');
 const auth = new AuthService();
-
 const db = require('../models');
 
 const MovementBillToReceiveService = new movementBillToReceiveService(db.MovementBillToReceive);
