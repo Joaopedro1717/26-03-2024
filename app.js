@@ -13,6 +13,8 @@ var suppliersRouter = require('./routes/suppliers');
 var proposalsRouter = require('./routes/proposals');
 var billToPayRouter = require('./routes/billsToPay');
 var clientsRouter = require('./routes/clients');
+var billToReceiveRouter = require('./routes/billsToReceive');
+var salesRouter = require('./routes/sales');
 
 var app = express();
 
@@ -32,6 +34,8 @@ app.use('/suppliers', suppliersRouter);
 app.use('/proposals', proposalsRouter);
 app.use('/billsToPay', billToPayRouter);
 app.use('/clients', clientsRouter);
+app.use('/billsToReceive', billToReceiveRouter);
+app.use('/sales', salesRouter);
 const db = require('./models');
 
 // Aplicar as migration (integrar com o banco de dados [MySql])
