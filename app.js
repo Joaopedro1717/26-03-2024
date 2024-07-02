@@ -12,6 +12,7 @@ var departmentsRouter = require('./routes/departments');
 var suppliersRouter = require('./routes/suppliers');
 var proposalsRouter = require('./routes/proposals');
 var billToPayRouter = require('./routes/billsToPay');
+var clientsRouter = require('./routes/clients');
 
 var app = express();
 
@@ -30,6 +31,7 @@ app.use('/departments', departmentsRouter);
 app.use('/suppliers', suppliersRouter);
 app.use('/proposals', proposalsRouter);
 app.use('/billsToPay', billToPayRouter);
+app.use('/clients', clientsRouter);
 const db = require('./models');
 
 // Aplicar as migration (integrar com o banco de dados [MySql])
@@ -83,7 +85,20 @@ async function ApplyMigrations(){
         db.MovementBillToPay.belongsTo(db.BillToPay, { foreignKey: 'titleId', as: 'BillToPay'});
         db.Purchase.hasMany(db.BillToPay, { foreignKey: 'purchaseId', as: 'BillToPay'});
         db.BillToPay.belongsTo(db.Purchase, { foreignKey: 'purchaseId', as: 'Purchase'});
-        
+
+        //Associação Vendas Contas a receber
+        db.Client.hasMany(db.Sale, { foreignKey: 'clientId' });
+        db.Sale.belongsTo(db.Client, { foreignKey: 'clientId' });
+        db.Sale.hasMany(db.SaleDetail, { foreignKey: 'saleId' });
+        db.SaleDetail.belongsTo(db.Sale, { foreignKey: 'saleId' });
+        db.Product.hasMany(db.SaleDetail, { foreignKey: 'productId' });
+        db.SaleDetail.belongsTo(db.Product, { foreignKey: 'productId' });
+        db.Sale.hasMany(db.BillToReceive, { foreignKey: 'saleId' });
+        db.BillToReceive.belongsTo(db.Sale, { foreignKey: 'saleId '});
+        db.BillToReceive.hasMany(db.MovementBillToReceive, { foreignKey: 'titleId' });
+        db.MovementBillToReceive.belongsTo(db.BillToReceive, { foreignKey: 'titleId' });
+
+
         await db.sequelize.sync({
             alter: migration_config.alter
         });

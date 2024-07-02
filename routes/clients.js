@@ -1,25 +1,19 @@
-// ./models/clients.js
+// ./routes/clients.js
 
-const Sequelize = require('sequelize');
+const clientService = require('../services/clientService');
+const clientController = require('../controllers/clientController');
 
-module.exports = (sequelize) => {
-    const Client = sequelize.define('Client', {
-        id: {
-            type: Sequelize.INTEGER,
-            autoIncrement:true,
-            primaryKey: true
-        },
+var express = require('express');
+var router = express.Router();
+const AuthService = require('../auth/AuthService');
+const auth = new AuthService();
+const db = require('../models');
 
-        name: {
-            type: Sequelize.INTEGER,
-            allowNull: false
-        },
+const ClientService = new clientService(db.Client);
+const ClientController = new clientController(ClientService);
 
-        cpf: {
-            type: Sequelize.STRING,
-            allowNull: false
-        }
-    });
+router.post('/newClient', function(req, res) {
+    ClientController.create(req, res);
+});
 
-    return Client;
-}
+module.exports = router;
