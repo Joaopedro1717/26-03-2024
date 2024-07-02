@@ -22,7 +22,7 @@ module.exports = (sequelize) => {
             allowNull: false
         },
         saleId: {
-            type: Sequelize.STRING,
+            type: Sequelize.INTEGER,
             allowNull: false,
             references: {
                 model: 'Sales',

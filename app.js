@@ -98,7 +98,7 @@ async function ApplyMigrations(){
         db.Product.hasMany(db.SaleDetail, { foreignKey: 'productId' });
         db.SaleDetail.belongsTo(db.Product, { foreignKey: 'productId' });
         db.Sale.hasMany(db.BillToReceive, { foreignKey: 'saleId' });
-        db.BillToReceive.belongsTo(db.Sale, { foreignKey: 'saleId '});
+        db.BillToReceive.belongsTo(db.Sale, { foreignKey: 'saleId'});
         db.BillToReceive.hasMany(db.MovementBillToReceive, { foreignKey: 'titleId' });
         db.MovementBillToReceive.belongsTo(db.BillToReceive, { foreignKey: 'titleId' });
 
