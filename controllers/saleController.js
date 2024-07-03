@@ -6,10 +6,10 @@ class saleController {
     }
 
     async create(req, res) {
-        const {productName, quantity, installment, clientCpf} = req.body;
+        const {productName, quantity, clientCpf, installment, salePrice} = req.body;
 
         try {
-            const newSale = await this.saleService.create(productName, quantity, installment, clientCpf);
+            const newSale = await this.saleService.create(productName, quantity, clientCpf, installment, salePrice);
             res.status(200).json(newSale);
         } catch(error){
             res.status(500).json({error:`Não foi possível criar uma nova venda`})

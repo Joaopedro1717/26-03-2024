@@ -25,15 +25,15 @@ const DepartmentService = new departmentService(db.Deposit, db.Department, db.Co
 
 const DepartmentController = new departmentController(DepartmentService);
 
-router.post('/newDepartment', function (req, res, next) {
+router.post('/newDepartment', auth.authenticateToken, (req, res, next) => {
     DepartmentController.create(req, res);
 });
 
-router.post('/materialRequest', function (req, res) {
+router.post('/materialRequest', auth.authenticateToken, (req, res) => {
     DepartmentController.materialRequest(req, res);
 });
 
-router.get('/buyMaterial', function (req, res) {
+router.get('/buyMaterial', auth.authenticateToken, (req, res) => {
     DepartmentController.buyMaterial(req, res);
 });
 

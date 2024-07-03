@@ -12,7 +12,7 @@ const ProposalService = new proposalService(db.Proposal, db.Supplier, db.Product
 const proposalController = require('../controllers/proposalController');
 const ProposalController = new proposalController(ProposalService);
 
-router.post('/newProposal', function(req, res, next) {
+router.post('/newProposal', auth.authenticateToken, (req, res, next) => {
     ProposalController.create(req,res);
 });
 

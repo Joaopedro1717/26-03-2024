@@ -13,13 +13,13 @@ class saleService {
 
     }
 
-    async create(productName, quantity, clientCpf, installment) {
+    async create(productName, quantity, clientCpf, installment, salePrice) {
         try {
             const client = await this.Client.findOne({
                 where: { cpf: clientCpf }
             });
             if(!client){
-                throw new error("Não foi possivel encontrar o cliente");
+                console.log("Não foi possivel encontrar o cliente");
             }
 
             const product = await this.Product.findOne({
@@ -42,7 +42,7 @@ class saleService {
             if(currentQuantity > 0) {
                 const removeQuantity = Math.min(currentQuantity, quantity);
 
-                await this.moveProductService.createExit(deposit.name, product.name, 'venda', removeQuantity, new Date());
+                await this.moveProductService.createExit(deposit.nome, product.nome, 'venda', removeQuantity, new Date());
 
                 quantity -= removeQuantity;
             }
@@ -76,11 +76,9 @@ class saleService {
             }
         );
 
-        const unitPriceProduct = await this.moveProductService.findByProduct(productName);
-
         const expirationDate = moment().add(7, 'days').format('YYYY-MM-DD');
 
-        await this.saleDetailService.create(newSale.id, product.id, soldQuantity, unitPriceProduct.unitPrice, installment, invoice, expirationDate);
+        await this.saleDetailService.create(newSale.id, product.id, soldQuantity, salePrice, installment, invoice, expirationDate);
 
         return newSale;
         } catch (error) {

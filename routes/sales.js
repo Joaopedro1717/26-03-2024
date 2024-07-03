@@ -19,9 +19,10 @@ const BillToReceiveService = new billToReceiveService(db.BillToReceive, Movement
 const SaleDetailService = new saleDetailService(db.SaleDetail, BillToReceiveService);
 const MoveProductModel = new moveProductService(db.MoveProduct, db.Product, db.Deposit);
 const SaleService = new saleService(db.Sale, SaleDetailService, db.Client, MoveProductModel, db.Deposit, db.Product);
+const SaleController = new saleController(SaleService);
 
 router.post('/newSale', function(req, res) {
-    SalesController.create(req, res);
+    SaleController.create(req, res);
 });
 
 module.exports = router;

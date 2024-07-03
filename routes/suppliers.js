@@ -12,7 +12,7 @@ const SupplierService = new supplierService(db.Supplier);
 const supplierController = require('../controllers/supplierController');
 const SupplierController = new supplierController(SupplierService);
 
-router.post('/newSupplier', function(req, res, next){
+router.post('/newSupplier', auth.authenticateToken, (req, res, next) => {
     SupplierController.create(req, res);
 });
 

@@ -86,7 +86,7 @@ class moveProductService{
                 console.log("Não é possível retirar valores maiores que a quantidade atual");
             }
 
-            amount += amountExit;
+            amount -= amountExit;
 
             const lastMovement = await this.MoveProduct.findOne({
                 where: {

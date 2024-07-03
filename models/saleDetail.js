@@ -21,7 +21,7 @@ module.exports = (sequelize) => {
             type: Sequelize.INTEGER,
             allowNull: false
         },
-        unitPrice: {
+        salePrice: {
             type: Sequelize.FLOAT,
             allowNull: false
         },

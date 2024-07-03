@@ -14,7 +14,7 @@ const MovementBillToReceiveService = new movementBillToReceiveService(db.movemen
 const BillToReceiveService = new billToReceiveService(db.BillToReceive, MovementBillToReceiveService, db.Client);
 const BillToReceiveController = new billToReceiveController(BillToReceiveService);
 
-router.post('/receiveTheBill', function(req, res) {
+router.post('/receiveTheBill', auth.authenticateToken,(req, res) => {
     BillToReceiveController.receiveTheBill(req, res);
 });
 

@@ -6,18 +6,18 @@ class saleDetailService {
         this.billsToReceiveService = billToReceiveService;
     }
 
-    async create(saleId, productId, soldQuantity, unitPrice, installment, invoice, expirationDate) {
+    async create(saleId, productId, soldQuantity, salePrice, installment, invoice, expirationDate) {
         try {
             const newSaleDetail = await this.SaleDetail.create({
                 saleId: saleId,
                 productId: productId,
                 soldQuantity: soldQuantity,
-                unitPrice: unitPrice,
+                salePrice: salePrice,
                 installment: installment,
                 invoice: invoice
             });
 
-            const totalSalePrice = soldQuantity * unitPrice;
+            const totalSalePrice = soldQuantity * salePrice;
             const status = "aberto";
 
             await this.billsToReceiveService.create(totalSalePrice, installment, invoice, saleId, status, expirationDate);
