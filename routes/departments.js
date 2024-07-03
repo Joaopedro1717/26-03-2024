@@ -25,7 +25,7 @@ const DepartmentService = new departmentService(db.Deposit, db.Department, db.Co
 
 const DepartmentController = new departmentController(DepartmentService);
 
-router.post('/newDepartment', auth.authenticateToken, (req, res, next) => {
+router.post('/newDepartment', function(req, res, next){
     DepartmentController.create(req, res);
 });
 
